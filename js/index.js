@@ -131,3 +131,14 @@ function eliminarPedidoLocalStorage(pedido){
 function vaciarLocalStorage(){
     localStorage.clear()
 }
+
+const sweetAlert = document.querySelector('.agregar-carrito')
+
+sweetAlert.onclick = (e) => {
+    swal({
+        title: "Movido al Carrito",
+        text: "Felicidades",
+        icon: "success",
+        button: "Salir"
+    });
+}
