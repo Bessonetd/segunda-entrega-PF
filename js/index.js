@@ -1,71 +1,71 @@
 
 const carrito = document.getElementById('carrito')
-const pedido = document.getElementById('listaPedido')
-const listaCarrito = document.querySelector('#listaCarrito tbody')
-const vaciarCarritoBtn = document.getElementById('vaciarCarrito')
+const platillos = document.getElementById('lista-platillos')
+const listaPlatillos = document.querySelector('#lista-carrito tbody')
+const vaciarCarritoBtn = document.getElementById('vaciar-carrito')
 
 cargarEventListeners()
 
 function cargarEventListeners(){
-    pedido.addEventListener('click', comprarPedido)
-    carrito.addEventListener('click', eliminarPedido)
+    platillos.addEventListener('click', comprarPlatillo)
+    carrito.addEventListener('click', eliminarPlatillo)
     vaciarCarritoBtn.addEventListener('click', vaciarCarrito)
     document.addEventListener('DOMContentLoaded', leerLocalStorage)
 }
 
-function comprarPedido(e){
+function comprarPlatillo(e){
     e.preventDefault();
     if(e.target.classList.contains('agregar-carrito')){
-        const pedido = e.target.parentElement.parentElement;
-        leerDatosPedidos(pedido);
+        const platillo = e.target.parentElement.parentElement;
+        leerDatosPlatillo(platillo);
     }
 }
 
-function leerDatosPedidos(pedido){
-    const infoPedido = {
-        imagen: pedido.querySelector('img').src,
-        titulo: pedido.querySelector('h4').textContent,
-        precio: pedido.querySelector('.precio').textContent,
-        id: pedido.querySelector('a').getAttribute('data-id')
+function leerDatosPlatillo(platillo){
+    const infoPlatillo = {
+        imagen: platillo.querySelector('img').src,
+        titulo: platillo.querySelector('h4').textContent,
+        precio: platillo.querySelector('.precio').textContent,
+        id: platillo.querySelector('a').getAttribute('data-id')
     }
 
-    insertarCarrito(infoPedido)
+    insertarCarrito(infoPlatillo)
 }
 
-function insertarCarrito(pedido){
+function insertarCarrito(platillo){
     const row = document.createElement('tr');
     row.innerHTML = `
         <td>
-            <img src="${pedido.imagen}" width=100>
+            <img src="${platillo.imagen}" width=100>
         </td>
-        <td>${pedido.titulo}</td>
-        <td>${pedido.precio}</td>
+        <td>${platillo.titulo}</td>
+        <td>${platillo.precio}</td>
         <td>
-            <a href="#" class="borrar-pedido" data-id="${pedido.id}">X</a>
+            <a href="#" class="borrar-platillo" data-id="${platillo.id}">X</a>
         </td>
     
     `;
-    listaPedido.appendChild(row)
-    guardarPedidoLocalStorage(pedido)
+    listaPlatillos.appendChild(row)
+    guardarPlatilloLocalStorage(platillo)
 }
 
-function eliminarPedido(e){
+function eliminarPlatillo(e){
     e.preventDefault()
 
-    let pedido,
-        pedidoId;
+    let platillo,
+        platilloId;
     
-    if(e.target.classList.contains('borrar-pedido')){
+    if(e.target.classList.contains('borrar-platillo')){
         e.target.parentElement.parentElement.remove()
-        pedido = e.target.parentElement.parentElement
-        pedidoId = pedido.querySelector('a').getAttribute('data-id')
+        platillo = e.target.parentElement.parentElement
+        platilloId = platillo.querySelector('a').getAttribute('data-id')
     }
-    eliminarPedidoLocalStorage(pedidoId)
+    eliminarPlatilloLocalStorage(platilloId)
 }
 
 function vaciarCarrito(){
-    while(listaPedido.firstChild){
-        listaPedido.removeChild(listaPedido.firstChild)
+    while(listaPlatillos.firstChild){
+        listaPlatillos.removeChild(listaPlatillos.firstChild)
     }
 
     vaciarLocalStorage()
@@ -73,72 +73,63 @@ function vaciarCarrito(){
     return false;
 }
 
-function guardarPedidoLocalStorage(pedido){
-    let pedidos ;
-    pedidos = obtenerPedidoLocalStorage()
-    pedidos.push(pedido)
+function guardarPlatilloLocalStorage(platillo){
+    let platillos ;
+    platillos = obtenerPlatillosLocalStorage()
+    platillos.push(platillo)
 
-    localStorage.setItem('pedidos', JSON.stringify(pedidos))
+    localStorage.setItem('platillos', JSON.stringify(platillos))
 }
 
-function obtenerPedidoLocalStorage(){
-    let pedidosLS;
+function obtenerPlatillosLocalStorage(){
+    let platillosLS;
 
-    if(localStorage.getItem('pedidos')=== null){
-        pedidosLS = []
+    if(localStorage.getItem('platillos') === null){
+        platillosLS = []
     } else{
-        pedidosLS = JSON.parse(localStorage.getItem('pedidos'))
+        platillosLS = JSON.parse(localStorage.getItem('platillos'))
     }
-    return pedidosLS
+    return platillosLS
 }
 
 function leerLocalStorage(){
-    let pedidosLS
+    let platillosLS
 
-    pedidosLS = obtenerPedidoLocalStorage()
+    platillosLS = obtenerPlatillosLocalStorage()
 
-    pedidosLS.forEach(function(pedido){
+    platillosLS.forEach(function(platillo){
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>
-                <img src="${pedido.imagen}" width=100>
+                <img src="${platillo.imagen}" width=100>
             </td>
-            <td>${pedido.titulo}</td>
-            <td>${pedido.precio}</td>
+            <td>${platillo.titulo}</td>
+            <td>${platillo.precio}</td>
             <td>
-                <a hreft="#" class="borrar-pedido" data-id="${pedido.id}">X</a>
+                <a hreft="#" class="borrar-platillo" data-id="${platillo.id}">X</a>
             </td>
         
         `
-        listaPedido.appendChild(row)
+        listaPlatillos.appendChild(row)
     })
 }
 
-function eliminarPedidoLocalStorage(pedido){
-    let pedidosLS
+function eliminarPlatilloLocalStorage(platillo){
+    let platillosLS
 
-    pedidosLS = obtenerPedidoLocalStorage()
+    platillosLS = obtenerPlatillosLocalStorage()
 
-    pedidosLS.forEach(function(pedidosLS, index){
-        if(pedidosLS.id === pedido){
-            pedidosLS.splice(index, 1)
+    platillosLS.forEach(function(platilloLS, index){
+        if(platilloLS.id === platillo){
+            platillosLS.splice(index, 1)
         }
     })
 
-    localStorage.setItem('pedidos', JSON.stringify(pedidosLS))
+    localStorage.setItem('platillos', JSON.stringify(platillosLS))
 }
 
 function vaciarLocalStorage(){
     localStorage.clear()
 }
 
-const sweetAlert = document.querySelector('.agregar-carrito')
 
-sweetAlert.onclick = (e) => {
-    swal({
-        title: "Movido al Carrito",
-        text: "Felicidades",
-        icon: "success",
-        button: "Salir"
-    });
-}
