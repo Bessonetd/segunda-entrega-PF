@@ -1,3 +1,31 @@
+// Desafio: Fetch en tu proyecto
+
+const lista = document.querySelector('#lista-platillos')
+
+fetch('../js/data.json')
+    .then( (res) => res.json())
+    .then( (data) => {
+
+        data.forEach((producto) => {
+            const li = document.createElement('li')
+            li.innerHTML = `
+                <h4>${producto.nombre}</h4>
+                <p>${producto.precio}</p>
+                <p>Código: ${producto.id}</p>
+                <img src="${producto.imagen}" >
+                <hr/>
+            `
+
+            lista.append(li)
+        })
+    })
+
+
+
+
+
+
+
 
 const carrito = document.getElementById('carrito')
 const platillos = document.getElementById('lista-platillos')

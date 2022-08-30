@@ -1,0 +1,7 @@
+[
+    {"nombre": "Traba puertas ", "precio": 100, "id": 1, "imagen": "../img/img1.jpg"},
+    {"nombre": "Cestos", "precio": 200, "id": 2, "imagen": "../img/img2.jpg"},
+    {"nombre": "Almohada", "precio": 300, "id": 3, "imagen": "../img/img3.jpg"},
+    {"nombre": "Camino", "precio": 400, "id": 4, "imagen": "../img/img1.jpg"},
+    {"nombre": "Corazones", "precio": 500, "id": 5, "imagen": "../img/img2.jpg"}
+]
